@@ -1,37 +1,70 @@
-# maestro-automation
+# 🗺️ Google Maps Docklands Search - Android Studio# maestro-automation
+
 This project demonstrates the use of Maestro to automate a mobile app.
 
+A simple automation script to search for Docklands in Google Maps using Android Studio.
 
-## 🚀 Getting Started
 
-### 🚧 Prerequisites
 
-> Disclaimer: The content, code, and testing of this project have been developed and evaluated primarily using Windows and Android testing perspectives. For other configurations, please refer to [maestro.mobile.dev](https://maestro.mobile.dev/) website for guidelines.
+## 📁 What's Included## 🚀 Getting Started
+
+
+
+- `setup-android-studio.ps1` - Setup Android Studio environment### 🚧 Prerequisites
+
+- `pure-powershell-search.ps1` - Simple Docklands search script  
+
+- `google-maps/` - Test files for advanced users> Disclaimer: The content, code, and testing of this project have been developed and evaluated primarily using Windows and Android testing perspectives. For other configurations, please refer to [maestro.mobile.dev](https://maestro.mobile.dev/) website for guidelines.
+
+- `ANDROID_STUDIO_SETUP.md` - Detailed setup guide
 
 Before you can run this project, you must have the following software installed on your computer:
 
-- WSL2 (Window Subsystem for Linux)
-- Java Development Kit (JDK) version 11 or later
-- SDK and emulator setup _(on this case, I used Android Studio)_
-- Mobile application under test
+## 🚀 Quick Start
 
-#### 🚨 Mobile application under test
+- WSL2 (Window Subsystem for Linux)
+
+1. **Install Android Studio** from https://developer.android.com/studio- Java Development Kit (JDK) version 11 or later
+
+2. **Run setup script:** `.\setup-android-studio.ps1`- SDK and emulator setup _(on this case, I used Android Studio)_
+
+3. **Create/Start emulator** in Android Studio- Mobile application under test
+
+4. **Install Google Maps** on emulator
+
+5. **Run test:** `.\pure-powershell-search.ps1`#### 🚨 Mobile application under test
+
 * [Toyota Link](https://play.google.com/store/apps/details?id=au.com.toyota.EntuneToyota&hl=en) 
-* [Lexus Enform](https://play.google.com/store/apps/details?id=au.com.intelematics.EntuneLexus&hl=en_AU) <br/>
+
+## 🎯 What It Does* [Lexus Enform](https://play.google.com/store/apps/details?id=au.com.intelematics.EntuneLexus&hl=en_AU) <br/>
+
   Note that the app files are not uploaded into this repository intentionally.
 
-### 🛠️ Installation
-1. Run the following command to install Maestro.
-   ```sh
-   curl -Ls "https://get.maestro.mobile.dev" | bash
-   ```
-   Or, you may follow the environment setup directly from the [maestro.mobile.dev](https://maestro.mobile.dev/) website depending on your system [here](https://maestro.mobile.dev/getting-started/installing-maestro). 
-2. Clone this repository to your local machine. 
-   ```sh
-   https://github.com/marizala/maestro-automation.git
-   ```
+1. Opens Google Maps on your Android emulator
 
-### 👨🏼‍🔬Tests
+2. Searches for "Docklands"### 🛠️ Installation
+
+3. Selects the location1. Run the following command to install Maestro.
+
+4. Takes a screenshot for verification   ```sh
+
+   curl -Ls "https://get.maestro.mobile.dev" | bash
+
+## 📱 Requirements   ```
+
+   Or, you may follow the environment setup directly from the [maestro.mobile.dev](https://maestro.mobile.dev/) website depending on your system [here](https://maestro.mobile.dev/getting-started/installing-maestro). 
+
+- Android Studio (includes ADB and emulator)2. Clone this repository to your local machine. 
+
+- Android emulator running   ```sh
+
+- Google Maps installed on emulator   https://github.com/marizala/maestro-automation.git
+
+- Internet connection   ```
+
+
+
+That's it! Simple and clean. 🚀### 👨🏼‍🔬Tests
 This project contains 2 sample test cases that demonstrate how to use Maestro to interact with mobile app in Android platform.
 
 
