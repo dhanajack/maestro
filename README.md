@@ -1,127 +1,150 @@
-# 🗺️ Google Maps Docklands Search - Android Studio# maestro-automation
+# Maestro Mobile Testing Project
 
-This project demonstrates the use of Maestro to automate a mobile app.
+Automated mobile UI testing for Google Maps using Maestro framework.
 
-A simple automation script to search for Docklands in Google Maps using Android Studio.
+##  Quick Start
 
+### Prerequisites
+- Maestro installed (`curl -Ls "https://get.maestro.mobile.dev" | bash`)
+- Android SDK Platform Tools (ADB)
+- Android Emulator or physical device
+- Google Maps installed on device
 
+### Installation
 
-## 📁 What's Included## 🚀 Getting Started
-
-
-
-- `setup-android-studio.ps1` - Setup Android Studio environment### 🚧 Prerequisites
-
-- `pure-powershell-search.ps1` - Simple Docklands search script  
-
-- `google-maps/` - Test files for advanced users> Disclaimer: The content, code, and testing of this project have been developed and evaluated primarily using Windows and Android testing perspectives. For other configurations, please refer to [maestro.mobile.dev](https://maestro.mobile.dev/) website for guidelines.
-
-- `ANDROID_STUDIO_SETUP.md` - Detailed setup guide
-
-Before you can run this project, you must have the following software installed on your computer:
-
-## 🚀 Quick Start
-
-- WSL2 (Window Subsystem for Linux)
-
-1. **Install Android Studio** from https://developer.android.com/studio- Java Development Kit (JDK) version 11 or later
-
-2. **Run setup script:** `.\setup-android-studio.ps1`- SDK and emulator setup _(on this case, I used Android Studio)_
-
-3. **Create/Start emulator** in Android Studio- Mobile application under test
-
-4. **Install Google Maps** on emulator
-
-5. **Run test:** `.\pure-powershell-search.ps1`#### 🚨 Mobile application under test
-
-* [Toyota Link](https://play.google.com/store/apps/details?id=au.com.toyota.EntuneToyota&hl=en) 
-
-## 🎯 What It Does* [Lexus Enform](https://play.google.com/store/apps/details?id=au.com.intelematics.EntuneLexus&hl=en_AU) <br/>
-
-  Note that the app files are not uploaded into this repository intentionally.
-
-1. Opens Google Maps on your Android emulator
-
-2. Searches for "Docklands"### 🛠️ Installation
-
-3. Selects the location1. Run the following command to install Maestro.
-
-4. Takes a screenshot for verification   ```sh
-
+1. Install Maestro:
+   ```bash
    curl -Ls "https://get.maestro.mobile.dev" | bash
-
-## 📱 Requirements   ```
-
-   Or, you may follow the environment setup directly from the [maestro.mobile.dev](https://maestro.mobile.dev/) website depending on your system [here](https://maestro.mobile.dev/getting-started/installing-maestro). 
-
-- Android Studio (includes ADB and emulator)2. Clone this repository to your local machine. 
-
-- Android emulator running   ```sh
-
-- Google Maps installed on emulator   https://github.com/marizala/maestro-automation.git
-
-- Internet connection   ```
-
-
-
-That's it! Simple and clean. 🚀### 👨🏼‍🔬Tests
-This project contains 2 sample test cases that demonstrate how to use Maestro to interact with mobile app in Android platform.
-
-
-#### 🧪 Test Cases
-* `get-started.yaml`: Application onboarding process (accept Terms and Conditions, allow permission requests) and basic map actions.
-* `trip-CRUD.yaml`: Basic create, read, update and delete of a trip record.
-
-
-### 🏃🏽 How to run the tests locally
-1. Run your emulator. 
-   ```
-   emulator -avd <device_name>
    ```
 
-2. In Powershell, start the adb server.
-   ```
-   adb -a -P 5037 nodaemon server
-   ```
-
-3. Open WSL2 terminal in the project root directory and run these commands.
-   ```
-   adb kill-server
-   export ADB_SERVER_SOCKET=tcp:<WINDOWS_IPV4_ADDRESS>:5037
-   adb devices
-   ```
-4. Run your flow (test case) with this command.
-   ```
-   maestro --host <WINDOWS_IPV4_ADDRESS> --device <device_name> test -e APP_ID=<APP_ID> toyota-link/tests/trip-CRUD.yaml
+2. Install Android Platform Tools (macOS):
+   ```bash
+   brew install --cask android-platform-tools
    ```
 
+3. Clone this repository
 
-#### ⚙️ Useful commands (Android)
+### Running Tests
 
-* To install the mobile application `adb -s <device_name> install <apk file>`
-* To clear app data `adb shell pm clear <app_id>`
-  
-### 📹 Demo
-`get-started.yaml`
+```bash
+# Run all tests
+./run-tests.sh all
 
-https://github.com/marizala/maestro-automation/assets/37069334/58be529f-092b-4a01-8e06-67026c651207
+# Run specific test
+./run-tests.sh basic-launch
+./run-tests.sh coordinate-search
 
-`trip-CRUD.yaml`
+# Run directly with Maestro
+maestro test google-maps/tests/basic-launch.yaml
+maestro test google-maps/tests/coordinate-based-search.yaml
+```
 
-https://github.com/marizala/maestro-automation/assets/37069334/497ac335-2c8c-407c-8e80-0fcf9da9fe00
+## 📁 Project Structure
 
-### 🏃🏽 How to run the tests on Maestro Cloud
-1. Open WSL2 terminal in the project root directory and login to the CLI by running this command.
-   
-   ```
-   maestro login
-   ```
-   > Sign in using your email address then the login link will be sent over to complete the process. If this is your first time logging in, you'll be prompted to create an account. Follow the printed instructions to complete the login process.
-2. Run your flow on Maestro Cloud with this command.
-   ```
-   maestro cloud --include-tags smoke -e APP_ID=<APP_ID> --app-file='<APP_FILE_PATH>' --flows='toyota-link/'
+```
+Maestro/
+├── google-maps/
+│   ├── config.yaml                      # Maestro configuration
+│   └── tests/
+│       ├── basic-launch.yaml            # Simple app launch test
+│       └── coordinate-based-search.yaml # Location search test
+├── run-tests.sh                         # Test execution script
+└── README.md                            # This file
+```
 
-   ```
-   ![maestro-cloud-terminal](https://github.com/marizala/maestro-automation/assets/37069334/5c862851-9cea-4c4a-ac5c-24e77c29bc70)
+## 🧪 Test Cases
 
-   ![maestro-cloud](https://github.com/marizala/maestro-automation/assets/37069334/2082d15d-294d-4c03-8e7b-9b1afbba6f3e)
+### 1. Basic Launch
+**File**: `basic-launch.yaml`  
+**Purpose**: Verify Google Maps launches successfully  
+**Tags**: `smoke`, `launch`
+
+**Steps**:
+- Set location to Melbourne CBD
+- Launch Google Maps with clear state
+- Wait for app to load
+- Capture screenshot
+
+### 2. Coordinate-Based Search
+**File**: `coordinate-based-search.yaml`  
+**Purpose**: Test search functionality using coordinate tapping  
+**Tags**: `search`, `functional`
+
+**Steps**:
+- Launch Google Maps
+- Tap on search bar (using coordinates for better compatibility)
+- Enter "Docklands Melbourne"
+- Submit search
+- Verify results loaded and capture screenshot
+
+## 🛠️ Test Results & Debugging
+
+Test artifacts (screenshots, logs) are automatically saved in:
+```
+~/.maestro/tests/<timestamp>/
+```
+
+**Note**: Screenshots and test artifacts are excluded from git via `.gitignore` to keep the repository clean.
+
+Each test run creates a new directory with:
+- Screenshots at key points
+- Maestro execution logs
+- UI hierarchy dumps
+- AI analysis reports (if enabled)
+
+## 📊 Current Status
+
+✅ **All tests passing (2/2)**
+
+## 🔧 Configuration
+
+- **App ID**: `com.google.android.apps.maps`
+- **Default Device**: `emulator-5554`
+- **Test Location**: Melbourne CBD (-37.8136, 144.9631)
+
+## � Best Practices
+
+- Tests use **coordinate-based tapping** instead of element IDs for better compatibility across different Google Maps versions
+- All tests include **location setup** for consistent results
+- **Screenshots are captured** at key points for debugging
+- Tests use **clearState** to ensure clean starting conditions
+- **Waits and timeouts** are included to handle loading states
+
+## 🎯 Useful Commands
+
+### Device Management
+```bash
+# List connected devices
+adb devices
+
+# Start emulator
+emulator -avd <device_name>
+```
+
+### App Management
+```bash
+# Check if Google Maps is installed
+adb shell pm list packages | grep maps
+
+# Clear app data
+adb shell pm clear com.google.android.apps.maps
+```
+
+### Maestro Debugging
+```bash
+# Run with verbose output
+maestro test --debug-output google-maps/tests/basic-launch.yaml
+
+# Record test execution
+maestro test --record google-maps/tests/coordinate-based-search.yaml
+```
+
+## 🤝 Contributing
+
+This project demonstrates clean, maintainable mobile test automation. Feel free to add more test cases following the same patterns.
+
+## 📚 Resources
+
+- [Maestro Documentation](https://maestro.mobile.dev/)
+- [Maestro API Reference](https://maestro.mobile.dev/api-reference/commands)
+- [Maestro Best Practices](https://maestro.mobile.dev/best-practices/best-practices)
