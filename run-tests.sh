@@ -1,22 +1,34 @@
 #!/bin/bash
 
 # Maestro Test Runner Script
-# Usage: ./run-tests.sh [test-name] [app-id] [device-name]
+# Usage: ./run-tests.sh [test-name] [platform] [app-id] [device-name]
 
 set -e
 
 # Default values
-APP_ID=${2:-"com.google.android.apps.maps"}
-DEVICE_NAME=${3:-"emulator-5554"}
+PLATFORM=${2:-"android"}
 TEST_NAME=${1:-"all"}
+
+# Platform-specific defaults
+if [ "$PLATFORM" = "ios" ]; then
+    APP_ID=${3:-"com.google.Maps"}
+    DEVICE_NAME=${4:-"iPhone 15 Pro"}
+    TEST_DIR="google-maps-ios/tests"
+else
+    APP_ID=${3:-"com.google.android.apps.maps"}
+    DEVICE_NAME=${4:-"emulator-5554"}
+    TEST_DIR="google-maps/tests"
+fi
 
 # Colors for output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 echo -e "${YELLOW}🚀 Starting Maestro Test Execution${NC}"
+echo -e "PLATFORM: ${BLUE}${PLATFORM}${NC}"
 echo -e "APP_ID: ${APP_ID}"
 echo -e "DEVICE: ${DEVICE_NAME}"
 echo -e "TEST: ${TEST_NAME}"
@@ -31,9 +43,20 @@ fi
 
 # Check if device is connected
 echo -e "${YELLOW}📱 Checking device connection...${NC}"
-if ! adb devices | grep -q "${DEVICE_NAME}"; then
-    echo -e "${RED}❌ Device ${DEVICE_NAME} not found. Please start your emulator.${NC}"
-    exit 1
+
+if [ "$PLATFORM" = "ios" ]; then
+    # Check iOS Simulator
+    if ! xcrun simctl list devices | grep -q "Booted"; then
+        echo -e "${RED}❌ No iOS Simulator is running. Please start a simulator first.${NC}"
+        echo "Run: open -a Simulator"
+        exit 1
+    fi
+else
+    # Check Android device
+    if ! adb devices | grep -q "${DEVICE_NAME}"; then
+        echo -e "${RED}❌ Device ${DEVICE_NAME} not found. Please start your emulator.${NC}"
+        exit 1
+    fi
 fi
 
 echo -e "${GREEN}✅ Device connected${NC}"
@@ -60,16 +83,16 @@ run_test() {
 # Main execution logic
 case $TEST_NAME in
     "basic-launch")
-        run_test "google-maps/tests/basic-launch.yaml"
+        run_test "${TEST_DIR}/basic-launch.yaml"
         ;;
     "coordinate-search")
-        run_test "google-maps/tests/coordinate-based-search.yaml"
+        run_test "${TEST_DIR}/coordinate-based-search.yaml"
         ;;
     "all")
-        echo -e "${YELLOW}🔄 Running all tests...${NC}"
+        echo -e "${YELLOW}🔄 Running all ${PLATFORM} tests...${NC}"
         failed_tests=0
         
-        for test_file in google-maps/tests/*.yaml; do
+        for test_file in ${TEST_DIR}/*.yaml; do
             if ! run_test "$test_file"; then
                 ((failed_tests++))
             fi
@@ -85,6 +108,12 @@ case $TEST_NAME in
     *)
         echo -e "${RED}❌ Unknown test: $TEST_NAME${NC}"
         echo "Available tests: basic-launch, coordinate-search, all"
+        echo "Platforms: android, ios"
+        echo ""
+        echo "Usage examples:"
+        echo "  ./run-tests.sh all android"
+        echo "  ./run-tests.sh all ios"
+        echo "  ./run-tests.sh basic-launch ios"
         exit 1
         ;;
 esac
